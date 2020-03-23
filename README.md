@@ -5,5 +5,5 @@ This repo is just a practice of my skills of NodeJS and ExpressJS connecting wit
 To clone and use:
   1. Download the zip file.
   2. Navigate to the folder containing the app.js file in you terminal (Windows/Ubuntu).
-  3. Enter the command: node app.js (node must be installed)
+  3. Enter the command: "npm run dev"
   4. Open a browser and go to http://localhost:3000/login to begin.
