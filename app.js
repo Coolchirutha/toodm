@@ -25,22 +25,6 @@ var connection = mysql.createConnection({
 	database: 'tood'
 });
 
-// Storing the database values in a variable
-var users = [];
-
-connection.query('SELECT * FROM users', function(err, rows) {
-	if (err) {
-		console.log('error');
-	} else {
-		console.log('Data received from Db:');
-		setValue(rows);
-	}
-});
-
-function setValue(value) {
-	users = value;
-}
-
 // Adding middleware
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
@@ -93,25 +77,18 @@ app.get('/login', redirectToHome, (req, resp) => {
 
 // Login POST request handler
 app.post('/login', redirectToHome, (req, resp) => {
-	// resp.end(JSON.stringify(req.body));
-	//making connection to database and storing values from form in variables
-	// connection.connect();
 	username = req.body.username;
-	password = req.body.password;
-	console.log(users);
-	users.forEach(user => {
-		console.log(`${user.username} has password ${user.password}`);
-	});
-
-	// session = req.session;
-	// if (session.uniqueID) {
-	// 	// If already logged in send here
-	// 	req.redirect('/redirects');
-	// } // Handling login requests
-	// if (req.body.username == 'admin' && req.body.password == 'admin') {
-	// 	session.uniqueID = req.body.username;
-	// 	req.redirect('/dashboard');
-	// }
+    password = req.body.password;
+    sql = 'SELECT * FROM users WHERE username = ? AND password = ?';
+    connection.query(sql, [username, password], function(err, row) {
+        if (err) {
+            console.log('error');
+        } else {
+            if(typeof row !== 'undefined' && row.length > 0){
+                resp.sendFile('./views/todo.html', { root: __dirname });
+            } else resp.sendFile('./views/index.html', { root: __dirname });
+        }
+    });
 });
 
 // Register Route
