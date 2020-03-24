@@ -1,23 +1,31 @@
 <html>
-  <head>
-    <title> ToDo App </title>
-    <link href="https://fonts.googleapis.com/css?family=Lato:100"     rel="stylesheet">
-    <link href="/styles.css" rel="stylesheet">
-  </head>
-<body>
-  <div class="container">
-     <h2> A Simple ToDo List App </h2>
-<form action ="/addtask" method="POST">
-       <input type="text" name="newtask" placeholder="add new task">        <button> Add Task </button>
-    <h2> Added Task </h2>
-    <h1><%= obj %></h1>
-</form>
-<form action ="/removetask" method="POST">
-    <input type="text" name="removetask" placeholder="remove new task">        <button> Remove Task </button>
- <h2> Removed Task </h2>
-
-</form>
-    <h2> Completed task </h2>
-</div>
-</body>
+	<head>
+		<title>ToDo App</title>
+		<link
+			href="https://fonts.googleapis.com/css?family=Lato:100"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="stylesheets/style1.css" />
+	</head>
+	<body>
+		<div class="container">
+			<h2>A Simple ToDo List App</h2>
+			<form action="/addtask" method="POST">
+				<input type="text" name="newtask" placeholder="add new task" />
+				<button>Add Task</button>
+				<h2>Added Task</h2>
+				<h1><%= obj %></h1>
+			</form>
+			<form action="/removetask" method="POST">
+				<input
+					type="text"
+					name="removetask"
+					placeholder="remove new task"
+				/>
+				<button>Remove Task</button>
+				<h2>Removed Task</h2>
+			</form>
+			<h2>Completed task</h2>
+		</div>
+	</body>
 </html>
