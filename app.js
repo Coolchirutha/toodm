@@ -1,5 +1,5 @@
 // Importing and adding variables
-var express = require('express');
+const express = require('express');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var sessions = require('express-session');
@@ -157,7 +157,7 @@ app.get('/redirects', (req, resp) => {
 	} else resp.send('Who Are You? <a href="/logout">Kill session</a>');
 });
 
-// Starting Server
+// Listening to the port
 app.listen(PORT, () => {
 	console.log(`Listening at port: ${PORT}`);
 	console.log(`Server started at http://127.0.0.1:${PORT}`);
