@@ -5,11 +5,16 @@
 			href="https://fonts.googleapis.com/css?family=Lato:100"
 			rel="stylesheet"
 		/>
+		<script
+			src="https://code.jquery.com/jquery-3.4.1.min.js"
+			integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			crossorigin="anonymous"
+		></script>
 	</head>
 	<body>
 		<div class="container">
-            <h1> Hello,<%= username %></h1>
-			<h2>Your TODO List </h2>
+			<h1>Hello,<span id="username"><%=username%></span></h1>
+			<h2>Your TODO List</h2>
 			<form action="/addtask" method="POST">
 				<input type="text" name="newtask" placeholder="add new task" />
 				<button>Add Task</button>
@@ -22,13 +27,15 @@
 					placeholder="remove new task"
 				/>
 				<button>Remove Task</button>
-                <h2>Removed Task</h2>
-			</form>
+				<h2>Removed Task</h2>
+            </form>
+            <h2>All tasks:</h2>
+            <p class="todoList"></p>
 			<h2>Completed task</h2>
-        </div>
-        <script type="text/javascript">
-            console.log("Hi, i am html file");
-            console.log(username);
-        </script>
+		</div>
+
+		<script type="text/javascript">
+
+		</script>
 	</body>
 </html>

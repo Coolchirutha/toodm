@@ -152,8 +152,6 @@ app.post('/register', redirectToHome, (req, resp) => {
 
 app.get('/todo', (req, resp) => {
     username = resp.locals.userUniqueID;
-    // resp.sendFile('./views/todo.html', { root: __dirname });
-    // resp.render("todo.html", { root: __dirname, username: username });
     resp.render(__dirname + "/views/todo.html", {username: username});
 });
 
