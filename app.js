@@ -42,6 +42,17 @@ app.use(
 		}
 	})
 );
+app.use((req, resp, next) => {
+    const { userId } = req.session;
+    if(userId) {
+        resp.locals.userUniqueID = userId;
+    }
+    next();
+});
+
+console.log(__dirname);
+// Set view engine as EJS
+app.engine('html', require('ejs').renderFile);
 
 //              ROUTING
 
@@ -58,7 +69,7 @@ const redirectToLogin = (req, resp, next) => {
 const redirectToHome = (req, resp, next) => {
 	if (!!req.session.uniqueID) {
 		// If user is logged in, DO THIS
-        return resp.redirect('/todo');
+		return resp.redirect('/todo');
 	} else {
 		// If user is not logged in, DO THIS
 		next();
@@ -82,15 +93,15 @@ app.post('/login', redirectToHome, (req, resp) => {
 	sql = 'SELECT * FROM users WHERE username = ? AND password = ?';
 	connection.query(sql, [username, password], function(err, row) {
 		if (err) {
-            // If there is an error in executing the statements
+			// If there is an error in executing the statements
 			console.log('error');
 		} else {
 			if (typeof row !== 'undefined' && row.length > 0) {
-                // If login credentials are correct
-                req.session.userId = row[0].username;
-                return resp.redirect('/todo');
+				// If login credentials are correct
+				req.session.userId = row[0].username;
+				return resp.redirect('/todo');
 			} else {
-                // If login credentials are wrong
+				// If login credentials are wrong
 				resp.sendFile('./views/index.html', { root: __dirname });
 			}
 		}
@@ -99,54 +110,63 @@ app.post('/login', redirectToHome, (req, resp) => {
 
 // Register Route
 app.get('/register', redirectToHome, (req, resp) => {
-    return resp.redirect('/login');
+	return resp.redirect('/login');
 });
 
 app.post('/register', redirectToHome, (req, resp) => {
-    name = req.body.fullName;
-    username = req.body.username;
-    password = req.body.password;
+	name = req.body.fullName;
+	username = req.body.username;
+	password = req.body.password;
 	sql = 'SELECT * FROM users WHERE username = ?';
 	connection.query(sql, [username], function(err, row) {
 		if (err) {
-            // If there is an error in executing the statements
+			// If there is an error in executing the statements
 			console.log('error');
 		} else {
 			if (typeof row !== 'undefined' && row.length > 0) {
-                // If username is already in database
-                return resp.redirect('/login');
+				// If username is already in database
+				return resp.redirect('/login');
 			} else {
-                // If username is not there then we can add to database
-                sqlQuery = 'INSERT INTO users (name, username, password) VALUES (?, ?, ?)'
-                connection.query(sqlQuery, [name, username, password], (err, row) => {
-                    if (err) {
-                        // If there is any error in executing the statements
-                        console.log('error');
-                        return resp.redirect('/login');
-                    } else { // If registering is successful.
-                        req.session.userId = username;
-                        return resp.redirect('/todo');
-                    }
-                } );
+				// If username is not there then we can add to database
+				sqlQuery =
+					'INSERT INTO users (name, username, password) VALUES (?, ?, ?)';
+				connection.query(
+					sqlQuery,
+					[name, username, password],
+					(err, row) => {
+						if (err) {
+							// If there is any error in executing the statements
+							console.log('error');
+							return resp.redirect('/login');
+						} else {
+							// If registering is successful.
+							req.session.userId = username;
+							return resp.redirect('/todo');
+						}
+					}
+				);
 			}
 		}
 	});
 });
 
 app.get('/todo', (req, resp) => {
-    resp.sendFile('./views/todo.html', { root: __dirname });
-})
+    username = resp.locals.userUniqueID;
+    // resp.sendFile('./views/todo.html', { root: __dirname });
+    // resp.render("todo.html", { root: __dirname, username: username });
+    resp.render(__dirname + "/views/todo.html", {username: username});
+});
 
 // Logout Route
 app.get('/logout', redirectToLogin, (req, resp) => {
-	req.session.destroy( err => {
-        if(err) {
-            return resp.redirect('/todo');
-        }
+	req.session.destroy(err => {
+		if (err) {
+			return resp.redirect('/todo');
+		}
 
-        resp.clearCookie(SESS_NAME);
-        return resp.redirect('/login');
-    } );
+		resp.clearCookie(SESS_NAME);
+		return resp.redirect('/login');
+	});
 });
 
 // Redirects Route

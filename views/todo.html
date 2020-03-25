@@ -5,16 +5,15 @@
 			href="https://fonts.googleapis.com/css?family=Lato:100"
 			rel="stylesheet"
 		/>
-		<link rel="stylesheet" href="stylesheets/style1.css" />
 	</head>
 	<body>
 		<div class="container">
-			<h2>A Simple ToDo List App</h2>
+            <h1> Hello,<%= username %></h1>
+			<h2>Your TODO List </h2>
 			<form action="/addtask" method="POST">
 				<input type="text" name="newtask" placeholder="add new task" />
 				<button>Add Task</button>
 				<h2>Added Task</h2>
-				<h1><%= obj %></h1>
 			</form>
 			<form action="/removetask" method="POST">
 				<input
@@ -23,9 +22,13 @@
 					placeholder="remove new task"
 				/>
 				<button>Remove Task</button>
-				<h2>Removed Task</h2>
+                <h2>Removed Task</h2>
 			</form>
 			<h2>Completed task</h2>
-		</div>
+        </div>
+        <script type="text/javascript">
+            console.log("Hi, i am html file");
+            console.log(username);
+        </script>
 	</body>
 </html>
